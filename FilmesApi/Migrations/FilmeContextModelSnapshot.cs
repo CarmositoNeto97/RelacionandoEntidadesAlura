@@ -2,44 +2,50 @@
 using FilmesApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FilmesApi.Migrations;
-
-[DbContext(typeof(FilmeContext))]
-partial class FilmeContextModelSnapshot : ModelSnapshot
+namespace FilmesApi.Migrations
 {
-    protected override void BuildModel(ModelBuilder modelBuilder)
+    [DbContext(typeof(FilmeContext))]
+    partial class FilmeContextModelSnapshot : ModelSnapshot
     {
+        protected override void BuildModel(ModelBuilder modelBuilder)
+        {
 #pragma warning disable 612, 618
-        modelBuilder
-            .HasAnnotation("ProductVersion", "6.0.10")
-            .HasAnnotation("Relational:MaxIdentifierLength", 64);
+            modelBuilder
+                .HasAnnotation("ProductVersion", "10.0.0")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-        modelBuilder.Entity("FilmesApi.Models.Filme", b =>
-            {
-                b.Property<int>("Id")
-                    .ValueGeneratedOnAdd()
-                    .HasColumnType("int");
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-                b.Property<int>("Duracao")
-                    .HasColumnType("int");
+            modelBuilder.Entity("FilmesApi.Models.Filme", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                b.Property<string>("Genero")
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .HasColumnType("varchar(50)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                b.Property<string>("Titulo")
-                    .IsRequired()
-                    .HasColumnType("longtext");
+                    b.Property<int>("Duracao")
+                        .HasColumnType("int");
 
-                b.HasKey("Id");
+                    b.Property<string>("Genero")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                b.ToTable("Filmes");
-            });
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Filmes");
+                });
 #pragma warning restore 612, 618
+        }
     }
 }

@@ -1,6 +1,6 @@
 using FilmesApi.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("FilmeConnection");
 
 builder.Services.AddDbContext<FilmeContext>(opts =>
-    opts.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+    opts.UseSqlServer(connectionString));
 
 builder.Services.
     AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
